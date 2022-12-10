@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.pacheco.matheus.exercicios.model.Veiculo;
@@ -29,6 +30,11 @@ public class Exercicio5Controller {
 	@GetMapping
 	public ResponseEntity listarTodos() {
 		return new ResponseEntity<>(veiculoRepository.findAll(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/buscarPorMarcaAnoDescricao")
+	public ResponseEntity listarPorMarcaAnoDescricao(@RequestParam String marca, @RequestParam Integer ano, @RequestParam String descricao) {
+		return new ResponseEntity<>(veiculoRepository.findByMarcaAndAnoAndDescricao(marca, ano, descricao), HttpStatus.OK);
 	}
 	
 	@PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
