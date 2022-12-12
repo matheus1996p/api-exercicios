@@ -1,8 +1,8 @@
 package br.pacheco.matheus.exercicios.controller;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,9 +43,10 @@ public class Exercicio5Controller {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_ATOM_XML_VALUE})
 	public ResponseEntity inserirVeiculo(@RequestBody Veiculo veiculo) {
 		try {
-			Date date = new Date();
-			veiculo.setCreated(LocalDateTime.now(ZoneId.of("UTC")));
-			veiculo.setUpdated(LocalDateTime.now(ZoneId.of("UTC")));
+			java.util.Date utilDate = new java.util.Date();
+			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+			veiculo.setCreated(sqlDate);
+			veiculo.setUpdated(sqlDate);
 			return new ResponseEntity<>(veiculoRepository.save(veiculo), HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,12 +57,13 @@ public class Exercicio5Controller {
 	@PutMapping("/{id}")
 	public ResponseEntity atualizarVeiculo(@RequestBody Veiculo novoVeiculo, @PathVariable Long id) {
 		try {
+			java.util.Date utilDate = new java.util.Date();
+			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 			return new ResponseEntity<>(
 					veiculoRepository.findById(id).map(veiculo -> {
-						veiculo.setCreated(novoVeiculo.getCreated());
 						veiculo.setDescricao(novoVeiculo.getDescricao());
 						veiculo.setMarca(novoVeiculo.getMarca());
-						veiculo.setUpdated(novoVeiculo.getUpdated());
+						veiculo.setUpdated(sqlDate);
 						veiculo.setVeiculo(novoVeiculo.getVeiculo());
 						veiculo.setVendido(novoVeiculo.getVendido());
 						veiculo.setAno(novoVeiculo.getAno());
