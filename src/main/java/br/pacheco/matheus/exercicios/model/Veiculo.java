@@ -1,6 +1,6 @@
 package br.pacheco.matheus.exercicios.model;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,9 +36,9 @@ public class Veiculo {
 	private Boolean vendido;
 
 	@Column(name = "CREATED")
-	private Date created;
+	private LocalDateTime created;
 
 	@Column(name = "UPDATED")
-	private Date updated;
+	private LocalDateTime updated;
 
 }

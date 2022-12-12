@@ -1,6 +1,8 @@
 package br.pacheco.matheus.exercicios.controller;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +43,9 @@ public class Exercicio5Controller {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_ATOM_XML_VALUE})
 	public ResponseEntity inserirVeiculo(@RequestBody Veiculo veiculo) {
 		try {
+			Date date = new Date();
+			veiculo.setCreated(LocalDateTime.now(ZoneId.of("UTC")));
+			veiculo.setUpdated(LocalDateTime.now(ZoneId.of("UTC")));
 			return new ResponseEntity<>(veiculoRepository.save(veiculo), HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
